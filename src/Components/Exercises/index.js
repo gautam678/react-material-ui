@@ -19,36 +19,51 @@ const styles = {
   }
 };
 
-class Exercise extends Component {
+class Exercises extends Component {
   render() {
+    const {
+      category,
+      exercises,
+      onSelect,
+      exercise: {
+        id,
+        title = "Welcome",
+        description = " Description to the above task"
+      }
+    } = this.props;
     return (
       <Grid container>
         <Grid item sm>
           <Paper style={styles.paper}>
-            {this.props.exercises.map(([group, exercise]) => (
-              <Fragment>
-                <Typography
-                  variant="h6"
-                  style={{ textTransform: "capitalize" }}
-                >
-                  {group}
-                </Typography>
-                <List component="nav">
-                  {exercise.map(item => (
-                    <ListItem button>
-                      <ListItemText primary={item.title} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Fragment>
-            ))}
+            {exercises.map(([group, exercises]) =>
+              !category || group === category ? (
+                <Fragment key={group}>
+                  <Typography
+                    variant="h6"
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {group}
+                  </Typography>
+                  <List component="nav">
+                    {exercises.map(({ id, title }) => (
+                      <ListItem button key={id}>
+                        <ListItemText
+                          primary={title}
+                          onClick={() => onSelect(id)}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Fragment>
+              ) : null
+            )}
           </Paper>
         </Grid>
         <Grid style={styles.gridAlignment} item sm>
           <Paper style={styles.paper}>
-            <Typography variant="h3"> Welcome!</Typography>
+            <Typography variant="h3"> {title}</Typography>
             <Typography variant="subtitle2" style={styles.descriptionStyle}>
-              Description to the above task
+              {description}
             </Typography>
           </Paper>
         </Grid>
@@ -57,4 +72,4 @@ class Exercise extends Component {
   }
 }
 
-export default Exercise;
+export default Exercises;
