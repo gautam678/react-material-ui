@@ -22,21 +22,29 @@ class App extends Component {
     }
     return Object.entries(exerciseByParts);
   };
-  handleExerciseSelected = id => {
+  handleExerciseSelect = id => {
     this.setState(prevState => ({
       exercise: prevState.exercises.find(ex => ex.id === id)
     }));
+  };
+  handleExerciseCreate = exercise => {
+    this.setState({
+      exercises: [...exercises, exercise]
+    });
   };
   render() {
     const exercises = this.getExerciseBymuscles(),
       { exercise, category } = this.state;
     return (
       <Fragment>
-        <Header />
+        <Header
+          muscles={muscles}
+          onExerciseCreate={this.handleExerciseCreate}
+        />
         <Exercises
           category={category}
           exercises={exercises}
-          onSelect={this.handleExerciseSelected}
+          onSelect={this.handleExerciseSelect}
           exercise={exercise}
         />
         <Footer
