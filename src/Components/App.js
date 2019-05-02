@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { Header, Footer } from "./Layouts";
-import Exercise from "./Exercises";
+import Exercises from "./Exercises";
 import { muscles, exercises } from "../store";
 class App extends Component {
   state = {
     exercises,
-    category: ""
+    exercise: {}
   };
-  handleCategory = () => {
+  handleCategory = category => {
     this.setState({
-      category: category
+      category
     });
   };
   getExerciseBymuscles = () => {
@@ -22,11 +22,23 @@ class App extends Component {
     }
     return Object.entries(exerciseByParts);
   };
+  handleExerciseSelected = id => {
+    this.setState(prevState => ({
+      exercise: prevState.exercises.find(ex => ex.id === id)
+    }));
+  };
   render() {
+    const exercises = this.getExerciseBymuscles(),
+      { exercise, category } = this.state;
     return (
       <Fragment>
         <Header />
-        <Exercise exercises={this.getExerciseBymuscles()} />
+        <Exercises
+          category={category}
+          exercises={exercises}
+          onSelect={this.handleExerciseSelected}
+          exercise={exercise}
+        />
         <Footer
           muscles={muscles}
           onSelect={this.handleCategory}
