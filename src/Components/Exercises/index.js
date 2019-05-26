@@ -42,6 +42,7 @@ class Exercises extends Component {
         title = "Welcome",
         description = " Description to the above task"
       },
+      onSelectEdit,
       onDelete
     } = this.props;
     return (
@@ -67,7 +68,7 @@ class Exercises extends Component {
                         <ListItemSecondaryAction>
                           <IconButton
                             aria-label="Edit"
-                            onClick={() => onEdit(id)}
+                            onClick={() => onSelectEdit(id)}
                           >
                             <Edit />
                           </IconButton>

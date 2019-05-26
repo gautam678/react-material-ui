@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { Dialog, Button } from "material-ui";
 import {
+  Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle
-} from "material-ui/Dialog";
-import { Add } from "material-ui-icons";
+  DialogTitle,
+  Fab
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import Form from "./Form";
 
 export default class extends Component {
@@ -31,9 +32,9 @@ export default class extends Component {
 
     return (
       <Fragment>
-        <Button variant="fab" onClick={this.handleToggle} mini>
-          <Add />
-        </Button>
+        <Fab size="small" aria-label="Add" onClick={this.handleToggle}>
+          <AddIcon />
+        </Fab>
 
         <Dialog open={open} onClose={this.handleToggle}>
           <DialogTitle>Create a New Exercise</DialogTitle>
