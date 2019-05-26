@@ -12,15 +12,17 @@ class App extends Component {
       category
     });
   };
-  getExerciseBymuscles = () => {
-    let exerciseByParts = {};
+  getExerciseByMuscles = () => {
+    let initialExercises = {};
+    for (let i of muscles) {
+      initialExercises[i] = [];
+    }
     for (let i of this.state.exercises) {
       const { muscles } = i;
-      exerciseByParts[muscles] = exerciseByParts[muscles]
-        ? [...exerciseByParts[muscles], i]
-        : [i];
+      initialExercises[muscles] = [...initialExercises[muscles], i];
     }
-    return Object.entries(exerciseByParts);
+
+    return Object.entries(initialExercises);
   };
   handleExerciseSelect = id => {
     this.setState(prevState => ({
@@ -32,9 +34,26 @@ class App extends Component {
       exercises: [...exercises, exercise]
     });
   };
+  handleExerciseEdit = exercise => {
+    this.setState(({ exercises }) => ({
+      exercises: [...exercises.filter(ex => ex.id !== exercise.id), exercise],
+      exercise
+    }));
+  };
+  handleExerciseSelectEdit = id => {
+    this.setState(({ exercise }) => ({
+      exercise: exercise.find(ex => ex.id === id),
+      editMode: true
+    }));
+  };
+  handleExerciseDelete = id => {
+    this.setState(({ exercises }) => ({
+      exercises: exercises.filter(ex => ex.id !== id)
+    }));
+  };
   render() {
-    const exercises = this.getExerciseBymuscles(),
-      { exercise, category } = this.state;
+    const exercises = this.getExerciseByMuscles(),
+      { exercise, category, editMode } = this.state;
     return (
       <Fragment>
         <Header
@@ -43,9 +62,14 @@ class App extends Component {
         />
         <Exercises
           category={category}
+          muscles={muscles}
           exercises={exercises}
-          onSelect={this.handleExerciseSelect}
           exercise={exercise}
+          editMode={editMode}
+          onSelect={this.handleExerciseSelect}
+          onDelete={this.handleExerciseDelete}
+          onSelectEdit={this.handleExerciseSelectEdit}
+          onEdit={this.handleExerciseEdit}
         />
         <Footer
           muscles={muscles}
