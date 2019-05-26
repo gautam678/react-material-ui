@@ -1,8 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+  Grid,
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton
+} from "@material-ui/core";
+import { Delete, Edit } from "@material-ui/icons";
+import Form from "./Form";
 const styles = {
   paper: {
     padding: 20,
@@ -22,14 +30,20 @@ const styles = {
 class Exercises extends Component {
   render() {
     const {
+      muscles,
       category,
       exercises,
       onSelect,
+      editMode,
+      onEdit,
+      exercise,
       exercise: {
         id,
         title = "Welcome",
         description = " Description to the above task"
-      }
+      },
+      onSelectEdit,
+      onDelete
     } = this.props;
     return (
       <Grid container>
@@ -51,6 +65,20 @@ class Exercises extends Component {
                           primary={title}
                           onClick={() => onSelect(id)}
                         />
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            aria-label="Edit"
+                            onClick={() => onSelectEdit(id)}
+                          >
+                            <Edit />
+                          </IconButton>
+                          <IconButton
+                            aria-label="Delete"
+                            onClick={() => onDelete(id)}
+                          >
+                            <Delete />
+                          </IconButton>
+                        </ListItemSecondaryAction>
                       </ListItem>
                     ))}
                   </List>
@@ -61,10 +89,16 @@ class Exercises extends Component {
         </Grid>
         <Grid style={styles.gridAlignment} item sm>
           <Paper style={styles.paper}>
-            <Typography variant="h3"> {title}</Typography>
-            <Typography variant="subtitle2" style={styles.descriptionStyle}>
-              {description}
-            </Typography>
+            {editMode ? (
+              <Form muscles={muscles} onSubmit={onEdit} exercise={exercise} />
+            ) : (
+              <Fragment>
+                <Typography variant="h3"> {title}</Typography>
+                <Typography variant="subtitle2" style={styles.descriptionStyle}>
+                  {description}
+                </Typography>
+              </Fragment>
+            )}
           </Paper>
         </Grid>
       </Grid>
