@@ -32,11 +32,16 @@ export default class extends Component {
 
     return (
       <Fragment>
-        <Fab size="small" aria-label="Add" onClick={this.handleToggle}>
+        <Fab
+          size="small"
+          aria-label="Add"
+          onClick={this.handleToggle}
+          color="secondary"
+        >
           <AddIcon />
         </Fab>
 
-        <Dialog open={open} onClose={this.handleToggle}>
+        <Dialog open={open} onClose={this.handleToggle} fullWidth maxWidth="xs">
           <DialogTitle>Create a New Exercise</DialogTitle>
           <DialogContent>
             <DialogContentText>
