@@ -15,6 +15,7 @@ import Form from "./Form";
 
 const styles = theme => ({
   paper: {
+    backgroundColor: "#2196f3",
     padding: theme.spacing.unit * 2,
     marginTop: 5,
     height: `calc(100% - 20px)`,
